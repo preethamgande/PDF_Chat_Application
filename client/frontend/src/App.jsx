@@ -1,6 +1,6 @@
 import "./index.css";
-import PdfUpload from "./components/client_side/PdfUpload";
-import PdfChatInterface from "./components/client_side/PdfChatInterface";
+import PdfUpload from "./PdfUpload";
+import PdfChatInterface from "./PdfChatInterface";
 import { useState } from "react";
 
 function App() {
