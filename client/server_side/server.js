@@ -29,7 +29,7 @@ const chatSchema = new mongoose.Schema({
 const Chat = mongoose.model("Chat", chatSchema);
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -87,7 +87,9 @@ app.post("/upload-pdf", upload.single("pdfFile"), async (req, res) => {
       formattedText.substring(0, 10) + "..."
     );
 
-    const publicUrl = `http://localhost:${port}/uploads/${req.file.filename}`;
+    const publicUrl = `${req.protocol}://${req.get("host")}/uploads/${
+      req.file.filename
+    }`;
 
     res.status(200).json({
       message: "file uploaded and processed successfully",
