@@ -75,7 +75,8 @@ const PdfUpload = ({ onFileUploadSuccess, onPdfSelectedLocally }) => {
         }
       }, 200);
 
-      const response = await fetch("http://localhost:5000/upload-pdf", {
+      const API_BASE = import.meta.env.VITE_API_BASE_URL;
+      const response = await fetch(`${API_BASE}/upload-pdf`, {
         method: "POST",
         body: formData,
       });
