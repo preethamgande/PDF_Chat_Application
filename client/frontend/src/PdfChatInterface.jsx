@@ -107,8 +107,10 @@ const PdfChatInterface = ({
     const currentChatInput = chatInput;
     setChatInput("");
 
+    const API_BASE =
+      import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
     try {
-      const response = await fetch("http://localhost:5000/chat", {
+      const response = await fetch(`${API_BASE}/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
