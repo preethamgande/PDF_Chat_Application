@@ -5,10 +5,8 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  base: "./",
   optimizeDeps: {
-    include: ["pdfjs-dist/build/pdf.worker.entry"],
-  },
-  optimizeDeps: {
-    include: ["lucide-react"],
+    include: ["pdfjs-dist/build/pdf.worker.entry", "lucide-react"],
   },
 });
