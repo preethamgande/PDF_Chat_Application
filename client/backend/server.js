@@ -66,7 +66,9 @@ app.use(
     //   "https://pdf-chat-application-frontend.onrender.com", // deployed frontend
     //   "http://localhost:5173", // local development
     // ],
-    origin: "*",
+    origin: (origin, callback) => {
+      callback(null, true); // allow all origins dynamically
+    },
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
