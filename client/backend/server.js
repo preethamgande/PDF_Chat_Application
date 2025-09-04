@@ -38,13 +38,21 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 // middleware
 app.use(
   cors({
-    origin: ["https://pdf-chat-application-clientside-ruby.vercel.app"], // your frontend URL on Vercel
+    origin: [
+      "https://pdf-chat-application-clientside-ruby.vercel.app",
+      "http://localhost:5173",
+    ],
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+const uploadDir = "uploads";
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
 
 // settingup the storage for uploaded files
 const storage = multer.diskStorage({
@@ -57,11 +65,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
-const uploadDir = "uploads";
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
 
 // making sure the folder is publicly accessible..
 app.use("/uploads", express.static(uploadDir));
@@ -91,7 +94,7 @@ app.post("/upload-pdf", upload.single("pdfFile"), async (req, res) => {
     });
 
     console.log(
-      "Exracted text from pdf: ",
+      "Extracted text from pdf: ",
       formattedText.substring(0, 10) + "..."
     );
 
