@@ -35,8 +35,15 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // middlware
-app.use(cors());
-app.use(express.json());
+// middleware
+app.use(
+  cors({
+    origin: ["https://pdf-chat-application-clientside-ruby.vercel.app/"], // your frontend URL on Vercel
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+app.use(express.json({ limit: "10mb" }));
 
 // settingup the storage for uploaded files
 const storage = multer.diskStorage({
@@ -75,7 +82,7 @@ app.post("/upload-pdf", upload.single("pdfFile"), async (req, res) => {
     const data = await pdf(dataBuffer);
 
     // split document text by page breaks
-    const pages = data.text.split("/f");
+    const pages = data.text.split("\f");
 
     let formattedText = "";
     pages.forEach((pageText, index) => {
