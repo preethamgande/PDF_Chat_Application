@@ -38,12 +38,13 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 // middleware
 app.use(
   cors({
-    origin: ["https://pdf-chat-application-clientside-ruby.vercel.app/"], // your frontend URL on Vercel
+    origin: ["https://pdf-chat-application-clientside-ruby.vercel.app"], // your frontend URL on Vercel
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // settingup the storage for uploaded files
 const storage = multer.diskStorage({
