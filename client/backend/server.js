@@ -36,18 +36,21 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // middlware
 // middleware
-app.use(
-  cors({
-    origin: [
-      "https://pdf-chat-application-clientside-ruby.vercel.app",
-      "http://localhost:5173",
-    ],
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+// app.use(
+//   cors({
+//     origin: [
+//       "https://pdf-chat-application-clientside-ruby.vercel.app",
+//       "http://localhost:5173",
+//     ],
+//     methods: ["GET", "POST", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+// app.use(express.json({ limit: "10mb" }));
+// app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+app.use(cors());
+app.use(express.json());
 
 const uploadDir = "uploads";
 if (!fs.existsSync(uploadDir)) {
