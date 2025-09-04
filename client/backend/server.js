@@ -60,17 +60,18 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 //   })
 // );
 
-app.use(
-  cors({
-    origin: [
-      "https://pdf-chat-application-frontend.onrender.com", // deployed frontend
-      "http://localhost:5173", // local development
-    ],
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // include cookies/auth headers if needed
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       "https://pdf-chat-application-frontend.onrender.com", // deployed frontend
+//       "http://localhost:5173", // local development
+//     ],
+//     methods: ["GET", "POST", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     credentials: true, // include cookies/auth headers if needed
+//   })
+// );
+app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
