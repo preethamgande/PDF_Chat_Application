@@ -139,20 +139,23 @@ Follow these rules strictly:
     User Question: ${userQuery}`;
 
     const result = await model.generateContent(prompt);
-    console.log("chat received: ", req.body);
-    const aiResponse = result.response.text();
+    const response = await result.response;
+    const aiResponse = response.text();
 
     // saving the chat to db
     const newChat = new Chat({
-      sessionId: sessionId,
-      userQuery: userQuery,
-      aiResponse: aiResponse,
+      sessionId,
+      userQuery,
+      aiResponse,
     });
     await newChat.save();
 
     res.status(200).json({ aiResponse });
   } catch (error) {
-    console.error("Error generating AI resonse:", error);
+    console.error(
+      "Error generating AI response:",
+      error.response?.data || error.message || error
+    );
     res.status(500).json({
       message: "Failed to generate AI response.",
       error: error.message,
