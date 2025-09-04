@@ -104,7 +104,6 @@ const PdfChatInterface = ({
     };
 
     setChatMessages((prevMessages) => [...prevMessages, userMessage]);
-    const currentChatInput = chatInput;
     setChatInput("");
 
     const API_BASE =
@@ -116,9 +115,9 @@ const PdfChatInterface = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userQuery: currentChatInput,
-          extractedText: extractedText,
-          sessionId: sessionId,
+          userQuery: chatInput,
+          extractedText,
+          sessionId,
         }),
       });
 

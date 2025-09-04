@@ -46,8 +46,6 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 //     allowedHeaders: ["Content-Type", "Authorization"],
 //   })
 // );
-// app.use(express.json({ limit: "10mb" }));
-// app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 app.use(
   cors({
@@ -59,6 +57,8 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 const uploadDir = "uploads";
 if (!fs.existsSync(uploadDir)) {
@@ -136,6 +136,11 @@ app.post("/chat", async (req, res) => {
       .json({ message: "Missing user query, extracted text or sessionId" });
   }
   try {
+    const MAX_CHARS = 150000;
+    const docText =
+      extractedText.length > MAX_CHARS
+        ? extractedText.slice(0, MAX_CHARS) + "\n[Truncated]"
+        : extractedText;
     const prompt = `You are an intelligent assistant helping the user understand a document. 
 Your task is to answer questions based only on the provided document text. 
 Follow these rules strictly:
@@ -146,7 +151,7 @@ Follow these rules strictly:
    "The document does not provide enough information to answer this question."
 4. **Summarize if needed** - if the user’s query is broad, provide a well-structured summary instead of a long raw dump.
 5. **Format answers clearly** - use bullet points, short paragraphs, or numbered lists when appropriate.
-    Document Text: ${extractedText}
+    Document Text: ${docText}
     User Question: ${userQuery}`;
 
     const result = await model.generateContent(prompt);
