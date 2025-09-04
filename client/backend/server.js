@@ -62,13 +62,13 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 app.use(
   cors({
-    // origin: [
-    //   "https://pdf-chat-application-frontend.onrender.com", // deployed frontend
-    //   "http://localhost:5173", // local development
-    // ],
-    origin: (origin, callback) => {
-      callback(null, true); // allow all origins dynamically
-    },
+    origin: [
+      "https://pdf-chat-application-frontend.onrender.com", // deployed frontend
+      "http://localhost:5173", // local development
+    ],
+    // origin: (origin, callback) => {
+    //   callback(null, true); // allow all origins dynamically
+    // },
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
