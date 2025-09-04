@@ -11,10 +11,23 @@ require("dotenv").config();
 
 // establish connection with mongoDB
 
+// mongoose
+//   .connect(process.env.MONGODB_URI)
+//   .then(() => console.log("Connected to MongoDB"))
+//   .catch((error) => console.error("Could not connect to the database", error));
+
 mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((error) => console.error("Could not connect to the database", error));
+  .connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 10000 })
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+    app.listen(port, () => {
+      console.log(` Server running on http://localhost:${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error(" Could not connect to MongoDB", error);
+    process.exit(1); // Exit process if DB connection fails
+  });
 
 //defining a schema for chat messages and pdfs
 const chatSchema = new mongoose.Schema({
@@ -177,8 +190,4 @@ Follow these rules strictly:
       error: error.message,
     });
   }
-});
-
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
 });
